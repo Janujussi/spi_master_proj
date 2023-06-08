@@ -22,7 +22,14 @@
 int main(void)
 {
 	RCC_Reg_t* pRCCReg = (RCC_Reg_t*)RCC_BASE_ADDRESS;
-	pRCCReg->RCC_AHB2ENR |= (1 << 0);
+	GPIO_Reg_t* pGPIOCReg = (GPIO_Reg_t*)GPIOC;
+
+	pRCCReg->RCC_AHB2ENR |= (1 << 2);
+
+	for (int i = 0; i < 16; i++) {
+		pGPIOCReg->MODER &= ~(0x2 << i * 2);
+	}
+//	pGPIOCReg->MODER |= (0x1 << 3 * 2);
 
     /* Loop forever */
 	for(;;);
