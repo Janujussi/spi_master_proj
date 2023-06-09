@@ -596,7 +596,7 @@ LOAD c:/st/stm32cubeide_1.12.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_ranges  0x0000000000000000       0x10 ./Src/main.o
  .debug_ranges  0x0000000000000010       0x20 ./Startup/startup_stm32l476rgtx.o
 
-.debug_macro    0x0000000000000000      0xfcb
+.debug_macro    0x0000000000000000      0xfdd
  .debug_macro   0x0000000000000000       0x6c ./Src/main.o
  .debug_macro   0x000000000000006c      0xa84 ./Src/main.o
  .debug_macro   0x0000000000000af0       0x22 ./Src/main.o
@@ -605,16 +605,16 @@ LOAD c:/st/stm32cubeide_1.12.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x0000000000000bf1      0x103 ./Src/main.o
  .debug_macro   0x0000000000000cf4       0x6a ./Src/main.o
  .debug_macro   0x0000000000000d5e      0x1df ./Src/main.o
- .debug_macro   0x0000000000000f3d       0x8e ./Src/main.o
+ .debug_macro   0x0000000000000f3d       0xa0 ./Src/main.o
 
 .debug_line     0x0000000000000000      0x45c
  .debug_line    0x0000000000000000      0x3d8 ./Src/main.o
  .debug_line    0x00000000000003d8       0x84 ./Startup/startup_stm32l476rgtx.o
 
-.debug_str      0x0000000000000000     0x3ff7
- .debug_str     0x0000000000000000     0x3fc6 ./Src/main.o
-                                       0x412a (size before relaxing)
- .debug_str     0x0000000000003fc6       0x31 ./Startup/startup_stm32l476rgtx.o
+.debug_str      0x0000000000000000     0x4087
+ .debug_str     0x0000000000000000     0x4056 ./Src/main.o
+                                       0x41ba (size before relaxing)
+ .debug_str     0x0000000000004056       0x31 ./Startup/startup_stm32l476rgtx.o
                                          0x6e (size before relaxing)
 
 .comment        0x0000000000000000       0x50

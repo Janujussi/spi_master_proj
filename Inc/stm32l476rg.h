@@ -1,6 +1,8 @@
 #ifndef STM32L476RH_H
 #define STM32L476RH_H
 
+#include <stdint.h>
+
 /*----------- Memory map -----------*/
 
 /* RCC */
@@ -87,5 +89,21 @@ typedef struct {
     volatile uint32_t BRR;
     volatile uint32_t ASCR;
 } GPIO_Reg_t;
+
+/* SPI */
+
+#define SPI1_BASE_ADDRESS       (APB2_BASE_ADDRESS + 0x3000U)
+#define SPI2_BASE_ADDRESS       (APB1_BASE_ADDRESS + 0x3800U)
+#define SPI3_BASE_ADDRESS       (APB1_BASE_ADDRESS + 0x3C00U)
+
+typedef struct {
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t SR;
+    volatile uint32_t DR;
+    volatile uint32_t CRCPR;
+    volatile uint32_t RXCRCR;
+    volatile uint32_t TXCRCR;
+} SPI_Reg_t;
 
 #endif // STM32L476RH_H
