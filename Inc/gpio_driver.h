@@ -71,7 +71,7 @@ typedef struct {
  * 
  * @return None
 */
-void GPIO_Init(GPIO_Handle_t GPIO_Handle);
+void GPIO_Init(GPIO_Handle_t* GPIO_Handle);
 
 /**
  * Uninitialize GPIO

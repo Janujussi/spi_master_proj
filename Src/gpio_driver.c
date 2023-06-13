@@ -47,5 +47,5 @@ void GPIO_Init(GPIO_Handle_t* GPIO_Handle) {
     pGPIOx->PUPDR |= (GPIOConfig.PUPD << 2 * GPIOPin);
 
     // Alternate Function
-    pGPIOx->AFR[GPIOPin / 8] |= (GPIOConfig.ALTERNATE_FUNCTION << 4 * GPIOPin)
+    pGPIOx->AFR[GPIOPin / 8] |= (GPIOConfig.ALTERNATE_FUNCTION << 4 * GPIOPin);
 }
