@@ -1,1 +1,6 @@
-gpio_driver.c:9:6:GPIO_Init	15
+gpio_driver.c:9:6:GPIO_Init	10
+gpio_driver.c:73:6:GPIO_DeInit	1
+gpio_driver.c:77:9:GPIO_ReadPin	1
+gpio_driver.c:84:10:GPIO_ReadPort	1
+gpio_driver.c:88:6:GPIO_WritePin	1
+gpio_driver.c:95:6:GPIO_WritePort	1

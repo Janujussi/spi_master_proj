@@ -18,18 +18,19 @@
 
 #include <stdint.h>
 #include "stm32l476rg.h"
+#include "gpio_driver.h"
 
 int main(void)
 {
-	RCC_Reg_t* pRCCReg = (RCC_Reg_t*)RCC_BASE_ADDRESS;
-	GPIO_Reg_t* pGPIOCReg = (GPIO_Reg_t*)GPIOC;
+	GPIO_Handle_t GPIOC_Pin3_Handle;
+    GPIO_Config_t* GPIOC_Pin3_Config = &GPIOC_Pin3_Handle.GPIOConfig;
 
-	pRCCReg->RCC_AHB2ENR |= (1 << 2);
+    GPIOC_Pin3_Config->PIN = 3;
+    GPIOC_Pin3_Config->PIN_MODE = INPUT_MODE;
 
-	for (int i = 0; i < 16; i++) {
-		pGPIOCReg->MODER &= ~(0x2 << i * 2);
-	}
-//	pGPIOCReg->MODER |= (0x1 << 3 * 2);
+    GPIO_Init(&GPIOC_Pin3_Handle, GPIO_PORT_C);
+
+    uint8_t val = GPIO_ReadPin(&GPIOC_Pin3_Handle);
 
     /* Loop forever */
 	for(;;);

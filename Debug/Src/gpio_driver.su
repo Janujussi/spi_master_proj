@@ -1,1 +1,6 @@
-../Src/gpio_driver.c:9:6:GPIO_Init	32	static
+../Src/gpio_driver.c:9:6:GPIO_Init	40	static
+../Src/gpio_driver.c:73:6:GPIO_DeInit	16	static
+../Src/gpio_driver.c:77:9:GPIO_ReadPin	24	static
+../Src/gpio_driver.c:84:10:GPIO_ReadPort	16	static
+../Src/gpio_driver.c:88:6:GPIO_WritePin	24	static
+../Src/gpio_driver.c:95:6:GPIO_WritePort	16	static

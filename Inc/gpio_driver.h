@@ -47,9 +47,20 @@
 #define AF14                    0b1110
 #define AF15                    0b1111
 
+typedef enum {
+    GPIO_PORT_A,
+    GPIO_PORT_B,
+    GPIO_PORT_C,
+    GPIO_PORT_D,
+    GPIO_PORT_E,
+    GPIO_PORT_F,
+    GPIO_PORT_G,
+    GPIO_PORT_H,
+} GPIO_Port_t;
+
 typedef struct {
     uint8_t PIN;
-    uint8_t PORT_MODE;
+    uint8_t PIN_MODE;
     uint8_t OUTPUT_TYPE;
     uint8_t OUTPUT_SPEED;
     uint8_t PUPD;
@@ -71,7 +82,7 @@ typedef struct {
  * 
  * @return None
 */
-void GPIO_Init(GPIO_Handle_t* GPIO_Handle);
+void GPIO_Init(GPIO_Handle_t* GPIO_Handle, GPIO_Port_t GPIO_Port);
 
 /**
  * Uninitialize GPIO
@@ -80,17 +91,16 @@ void GPIO_Init(GPIO_Handle_t* GPIO_Handle);
  * 
  * @return None
 */
-void GPIO_DeInit(GPIO_Handle_t GPIO_Handle);
+void GPIO_DeInit(GPIO_Handle_t* GPIO_Handle);
 
 /**
  * Read GPIO pin
  * 
  * @param[in] GPIO_Handle: handle for GPIO object
- * @param[in] GPIO_Pin: Pin to read from
  * 
  * @return Pin value
 */
-uint8_t GPIO_ReadPin(GPIO_Handle_t GPIO_Handle, uint8_t GPIO_Pin);
+uint8_t GPIO_ReadPin(GPIO_Handle_t* GPIO_Handle);
 
 /**
  * Read GPIO port
@@ -99,7 +109,7 @@ uint8_t GPIO_ReadPin(GPIO_Handle_t GPIO_Handle, uint8_t GPIO_Pin);
  * 
  * @return Port value
 */
-uint16_t GPIO_ReadPort(GPIO_Handle_t GPIO_Handle);
+uint16_t GPIO_ReadPort(GPIO_Handle_t* GPIO_Handle);
 
 /**
  * Write to GPIO pin
@@ -110,7 +120,7 @@ uint16_t GPIO_ReadPort(GPIO_Handle_t GPIO_Handle);
  * 
  * @return None
 */
-void GPIO_WritePin(GPIO_Handle_t GPIO_Handle, uint8_t GPIO_Pin, uint8_t Pin_Enable);
+void GPIO_WritePin(GPIO_Handle_t* GPIO_Handle, uint8_t Pin_Enable);
 
 /**
  * Write to GPIO port
@@ -120,7 +130,7 @@ void GPIO_WritePin(GPIO_Handle_t GPIO_Handle, uint8_t GPIO_Pin, uint8_t Pin_Enab
  * 
  * @return None
 */
-void GPIO_WritePort(GPIO_Handle_t GPIO_Handle, uint16_t Port_Value);
+void GPIO_WritePort(GPIO_Handle_t* GPIO_Handle, uint16_t Port_Value);
 
 /**
  * Configure interrupt request
@@ -129,7 +139,7 @@ void GPIO_WritePort(GPIO_Handle_t GPIO_Handle, uint16_t Port_Value);
  * 
  * @return None
 */
-void GPIO_IRQConfig(GPIO_Handle_t GPIO_Handle);
+void GPIO_IRQConfig(GPIO_Handle_t* GPIO_Handle);
 
 /**
  * Handle interrupt request
@@ -138,6 +148,6 @@ void GPIO_IRQConfig(GPIO_Handle_t GPIO_Handle);
  * 
  * @return None
 */
-void GPIO_IRQHandling(GPIO_Handle_t GPIO_Handle);
+void GPIO_IRQHandling(GPIO_Handle_t* GPIO_Handle);
 
 #endif // GPIO_DRIVER_H
