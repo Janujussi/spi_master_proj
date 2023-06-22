@@ -6,15 +6,17 @@
 
 #include "gpio_driver.h"
 
-void GPIO_Init(GPIO_Handle_t* GPIO_Handle, GPIO_Port_t GPIO_Port) {
+void GPIO_Init(GPIO_Handle_t* GPIO_Handle) {
     GPIO_Reg_t* pGPIOx = GPIO_Handle->pGPIOx;
-    GPIO_Config_t GPIOConfig = GPIO_Handle->GPIOConfig;
-    uint8_t GPIOPin = GPIOConfig.PIN;
-	RCC_Reg_t* pRCCReg = (RCC_Reg_t*)RCC_BASE_ADDRESS;
+    GPIO_Config_t GPIO_Config = GPIO_Handle->GPIOConfig;
+    uint8_t GPIOPin = GPIO_Config.PIN;
+	RCC_Reg_t* pRCCReg = (RCC_Reg_t*)RCC;
+	SYSCFG_Reg_t* pSYSCFGReg = (SYSCFG_Reg_t*)SYSCFG;
+	EXTI_Reg_t* pEXTIReg = (EXTI_Reg_t*)EXTI;
 
 
     // Enable clock and assign gpio address
-    switch(GPIO_Port) {
+    switch(GPIO_Config.PORT) {
         case(GPIO_PORT_A):
             pGPIOx = (GPIO_Reg_t*)GPIOA;
             pRCCReg->RCC_AHB2ENR |= (1 << GPIO_PORT_A);
@@ -51,25 +53,67 @@ void GPIO_Init(GPIO_Handle_t* GPIO_Handle, GPIO_Port_t GPIO_Port) {
 
     // Port Mode
     pGPIOx->MODER &= ~(0x3 << 2 * GPIOPin);
-    pGPIOx->MODER |= (GPIOConfig.PIN_MODE << 2 * GPIOPin);
+    pGPIOx->MODER |= (GPIO_Config.PIN_MODE << 2 * GPIOPin);
 
-    if (GPIOConfig.PIN_MODE == OUTPUT_MODE) {
+    if (GPIO_Config.PIN_MODE == OUTPUT_MODE) {
         // Output Type
-        pGPIOx->OTYPER |= (GPIOConfig.OUTPUT_TYPE << GPIOPin);
+        pGPIOx->OTYPER |= (GPIO_Config.OUTPUT_TYPE << GPIOPin);
 
         // Output Speed
-        pGPIOx->OSPEEDR |= (GPIOConfig.OUTPUT_SPEED << 2 * GPIOPin);
+        pGPIOx->OSPEEDR |= (GPIO_Config.OUTPUT_SPEED << 2 * GPIOPin);
+    } else if (GPIO_Config.INTERRUPT_EN) {
+		// Enable SYSCFG
+		if (!(pRCCReg->RCC_APB2ENR & 0x1)) {
+			pRCCReg->RCC_APB2ENR |= (1 << 0);
+		}
+
+		// Configure SYSCFG
+		switch(GPIO_Config.PIN / 4) {
+			case(0):
+				pSYSCFGReg->EXTICR1 |= (GPIO_Config.PORT << GPIO_Config.PIN % 4);
+				break;
+
+			case(1):
+				pSYSCFGReg->EXTICR2 |= (GPIO_Config.PORT << GPIO_Config.PIN % 4);
+				break;
+
+			case(2):
+				pSYSCFGReg->EXTICR3 |= (GPIO_Config.PORT << GPIO_Config.PIN % 4);
+				break;
+
+			default:
+				pSYSCFGReg->EXTICR4 |= (GPIO_Config.PORT << GPIO_Config.PIN % 4);
+				break;
+		}
+
+		/* Setup EXTI */
+
+		// Enable Interrupt
+		pEXTIReg->IMR1 |= (1 << GPIO_Config.PIN);
+
+		// Configure Edges
+		if (GPIO_Config.INTERRUPT_EN & 0x1) {
+			pEXTIReg->RTSR1 |= (1 << GPIO_Config.PIN);
+		}
+
+		if (GPIO_Config.INTERRUPT_EN & 0x2) {
+			pEXTIReg->FTSR1 |= (1 << GPIO_Config.PIN);
+		}
     }
 
     // PUPDR
     pGPIOx->PUPDR |= ~(0x3 << 2 * GPIOPin);
-    pGPIOx->PUPDR |= (GPIOConfig.PUPD << 2 * GPIOPin);
+    pGPIOx->PUPDR |= (GPIO_Config.PUPD << 2 * GPIOPin);
 
     // Alternate Function
     pGPIOx->AFR[GPIOPin / 8] |= ~(0xF << 4 * GPIOPin);
-    pGPIOx->AFR[GPIOPin / 8] |= (GPIOConfig.ALTERNATE_FUNCTION << 4 * GPIOPin);
+    pGPIOx->AFR[GPIOPin / 8] |= (GPIO_Config.ALTERNATE_FUNCTION << 4 * GPIOPin);
+
 }
 
+/**
+ *	Not implemented
+ */
 void GPIO_DeInit(GPIO_Handle_t* GPIO_Handle) {
     // reset pin
 }
@@ -97,4 +141,9 @@ void GPIO_WritePort(GPIO_Handle_t* GPIO_Handle, uint16_t Port_Value) {
     GPIO_Handle->pGPIOx->ODR |= Port_Value;
 }
 
-// Implement irq later
+void GPIO_IRQConfig(GPIO_Handle_t* GPIO_Handle) {
+}
+
+void GPIO_IRQHandler(GPIO_Handle_t* GPIO_Handle) {
+
+}

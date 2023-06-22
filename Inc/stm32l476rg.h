@@ -1,13 +1,41 @@
+/**
+ * Header for STM32L476RG
+ *
+ * Author: Jan Morrison
+ */
+
 #ifndef STM32L476RH_H
 #define STM32L476RH_H
 
 #include <stdint.h>
 
-/*----------- Memory map -----------*/
+/*----------- Cortex M4 Memory Addresses -----------*/
+
+#define NVIC_REGISTERS_BASE_ADDRESS		0xE000E100U
+
+typedef struct {
+	volatile uint32_t ISERx[8];			// offset 0x00 - 0x1C
+	volatile uint32_t RESERVED[23];		// 0x20 - 0x7C
+	volatile uint32_t ICERx[8];
+	volatile uint32_t ISPRx[8];
+	volatile uint32_t RESERVED1[23];
+	volatile uint32_t ICPRx[8];
+	volatile uint32_t IABRx[8];
+	volatile uint32_t IPR[60];
+} NVIC_Reg_t;
+
+#define NVIC_ISER0				0x
+#define NVIC_ISER1
+#define NVIC_ISER2
+#define NVIC_ISER3
+
+/*----------- STML476RG Memory Map -----------*/
 
 /* RCC */
 
 #define RCC_BASE_ADDRESS        0x40021000U
+
+#define RCC						RCC_BASE_ADDRESS
 
 typedef struct {
     volatile uint32_t RCC_CR;
@@ -56,6 +84,11 @@ typedef struct {
 #define AHB1_BASE_ADDRESS       (BUS_BASE_ADDRESS + 0x20000U)
 #define AHB2_BASE_ADDRESS       (BUS_BASE_ADDRESS + 0x8000000U)
 
+#define APB1					APB1_BASE_ADDRESS
+#define APB2					APB2_BASE_ADDRESS
+#define AHB1					AHB1_BASE_ADDRESS
+#define AHB2					AHB2_BASE_ADDRESS
+
 /* GPIO */
 
 #define GPIOA_BASE_ADDRESS      AHB2_BASE_ADDRESS
@@ -96,6 +129,10 @@ typedef struct {
 #define SPI2_BASE_ADDRESS       (APB1_BASE_ADDRESS + 0x3800U)
 #define SPI3_BASE_ADDRESS       (APB1_BASE_ADDRESS + 0x3C00U)
 
+#define SPI1					SPI1_BASE_ADDRESS
+#define SPI2					SPI2_BASE_ADDRESS
+#define SPI3					SPI3_BASE_ADDRESS
+
 typedef struct {
     volatile uint32_t CR1;
     volatile uint32_t CR2;
@@ -105,5 +142,48 @@ typedef struct {
     volatile uint32_t RXCRCR;
     volatile uint32_t TXCRCR;
 } SPI_Reg_t;
+
+/* SYSCFG */
+
+#define SYSCFG_BASE_ADDRESS		(APB2_BASE_ADDRESS)
+
+#define SYSCFG					SYSCFG_BASE_ADDRESS
+
+typedef struct {
+	volatile uint32_t MEMRMP;
+	volatile uint32_t CFGR1;
+	volatile uint32_t EXTICR1;
+	volatile uint32_t EXTICR2 ;
+	volatile uint32_t EXTICR3;
+	volatile uint32_t EXTICR4;
+	volatile uint32_t SCSR;
+	volatile uint32_t CFGR2;
+	volatile uint32_t SWPR;
+	volatile uint32_t SKR;
+//	volatile uint32_t SWPR2; // not for L4x devices
+} SYSCFG_Reg_t;
+
+/* EXTI */
+
+#define EXTI_BASE_ADDRESS		(APB2_BASE_ADDRESS + 0X400U)
+
+#define EXTI					EXTI_BASE_ADDRESS
+
+typedef struct {
+	volatile uint32_t IMR1;
+	volatile uint32_t EMR1;
+	volatile uint32_t RTSR1;
+	volatile uint32_t FTSR1;
+	volatile uint32_t SWIER1;
+	volatile uint32_t PR1;
+	volatile uint32_t gap1;
+	volatile uint32_t gap2;
+	volatile uint32_t IMR2;
+	volatile uint32_t EMR2;
+	volatile uint32_t RTSR2;
+	volatile uint32_t FTSR2;
+	volatile uint32_t SWIER2;
+	volatile uint32_t PR2;
+} EXTI_Reg_t;
 
 #endif // STM32L476RH_H

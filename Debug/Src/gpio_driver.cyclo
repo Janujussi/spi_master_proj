@@ -1,6 +1,8 @@
-gpio_driver.c:9:6:GPIO_Init	10
-gpio_driver.c:73:6:GPIO_DeInit	1
-gpio_driver.c:77:9:GPIO_ReadPin	1
-gpio_driver.c:84:10:GPIO_ReadPort	1
-gpio_driver.c:88:6:GPIO_WritePin	1
-gpio_driver.c:95:6:GPIO_WritePort	1
+gpio_driver.c:9:6:GPIO_Init	18
+gpio_driver.c:117:6:GPIO_DeInit	1
+gpio_driver.c:121:9:GPIO_ReadPin	1
+gpio_driver.c:128:10:GPIO_ReadPort	1
+gpio_driver.c:132:6:GPIO_WritePin	1
+gpio_driver.c:139:6:GPIO_WritePort	1
+gpio_driver.c:144:6:GPIO_IRQConfig	1
+gpio_driver.c:147:6:GPIO_IRQHandler	1

@@ -25,10 +25,13 @@ int main(void)
 	GPIO_Handle_t GPIOC_Pin3_Handle;
     GPIO_Config_t* GPIOC_Pin3_Config = &GPIOC_Pin3_Handle.GPIOConfig;
 
+    GPIOC_Pin3_Config->PORT = GPIO_PORT_C;
     GPIOC_Pin3_Config->PIN = 3;
     GPIOC_Pin3_Config->PIN_MODE = INPUT_MODE;
+    GPIOC_Pin3_Config->INTERRUPT_EN = BOTH_TRIGGERS;
+    GPIOC_Pin3_Config->PUPD = PULL_UP;
 
-    GPIO_Init(&GPIOC_Pin3_Handle, GPIO_PORT_C);
+    GPIO_Init(&GPIOC_Pin3_Handle);
 
     uint8_t val = GPIO_ReadPin(&GPIOC_Pin3_Handle);
 

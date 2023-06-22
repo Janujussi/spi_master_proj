@@ -30,6 +30,11 @@
 #define PULL_UP                 1
 #define PULL_DOWN               2
 
+#define NO_INTERRUPT			0
+#define RISING_TRIGGER			1
+#define FALLING_TRIGGER			2
+#define BOTH_TRIGGERS			3
+
 #define AF0                     0b0000
 #define AF1                     0b0001
 #define AF2                     0b0010
@@ -61,12 +66,14 @@ typedef enum {
 typedef struct {
     uint8_t PIN;
     uint8_t PIN_MODE;
+    GPIO_Port_t PORT;
     uint8_t OUTPUT_TYPE;
     uint8_t OUTPUT_SPEED;
     uint8_t PUPD;
     uint8_t INPUT_DATA;
     uint8_t OUTPUT_DATA;
     uint8_t ALTERNATE_FUNCTION;
+    uint8_t INTERRUPT_EN;
 } GPIO_Config_t;
 
 typedef struct {
@@ -82,7 +89,7 @@ typedef struct {
  * 
  * @return None
 */
-void GPIO_Init(GPIO_Handle_t* GPIO_Handle, GPIO_Port_t GPIO_Port);
+void GPIO_Init(GPIO_Handle_t* GPIO_Handle);
 
 /**
  * Uninitialize GPIO
@@ -148,6 +155,6 @@ void GPIO_IRQConfig(GPIO_Handle_t* GPIO_Handle);
  * 
  * @return None
 */
-void GPIO_IRQHandling(GPIO_Handle_t* GPIO_Handle);
+void GPIO_IRQHandler(GPIO_Handle_t* GPIO_Handle);
 
 #endif // GPIO_DRIVER_H
